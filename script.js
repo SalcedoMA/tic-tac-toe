@@ -8,14 +8,37 @@ const Game = (function () {
             for (let row of board) {
                 console.log(row);
             }
-            
 
+        };
 
+        const hasWon = function (x, y) {
+            let fullRow = board[y - 1].every( (val, i, arr) => val === arr[0] );
+            const winConditions = [
+                [board[0][0], board[1][1],board[2][2]],
+                [board[0][2], board[1][1],board[2][0]],
+                [board[0][0], board[1][0],board[2][0]],
+                [board[0][1], board[1][1],board[2][0]],
+                [board[0][2], board[1][2],board[2][2]]
+            ]
+
+            if (fullRow) {
+                return true;
+            } else {
+                for (condition of winConditions) {
+                    if (condition.every( (val, i, arr) => val === arr[0] )) {
+                        return true;
+                    }
+                }
+            }
         };
 
         const setCell = function (x, y, symbol) { //FUNCTION TO MODIFY BOARD WITHOUT ACCESSING DIRECTLY
             if (board[y - 1][x - 1] === " ") {
                 board[y - 1][x - 1] = symbol;
+                if (hasWon(x, y)) {
+                    console.clear();
+                };
+
                 return true; // Successfully placed
             }
             return false; // Cell already occupied
@@ -32,8 +55,10 @@ const Game = (function () {
     // CREATE NEW INSTANCE OF GAME(ASK FOR PLAYER INFO, RENDER GAMEBOARD, WAIT FOR PLAYER MOVE)
     //CORRECTED CODE WITH IMPROVEMENTS
     function newGame() {
-        let player1 = player(prompt("Player 1 name?"), "X");
-        let player2 = player(prompt("Player 2 name?"), "O");
+        // let player1 = player(prompt("Player 1 name?"), "X");
+        // let player2 = player(prompt("Player 2 name?"), "O");
+        let player1 = player("Manuel", "X");
+        let player2 = player("Lenin", "O");
         let currentGame = gameboard();
         currentGame.render(player1, player2);
 
