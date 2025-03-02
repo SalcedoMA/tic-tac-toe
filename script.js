@@ -1,15 +1,27 @@
 const Game = (function () {
     //DEFINE GAMEBOARD AND RENDER IT
     function gameboard() {
-        let gameboard = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]];
+        let board = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]];
+
         const render = function (player1, player2) {
-            // console.clear()
             console.log(player1, player2);
-            for (row of gameboard) {
+            for (let row of board) {
                 console.log(row);
             }
-        }
-        return {gameboard, render};
+            
+
+
+        };
+
+        const setCell = function (x, y, symbol) { //FUNCTION TO MODIFY BOARD WITHOUT ACCESSING DIRECTLY
+            if (board[y - 1][x - 1] === " ") {
+                board[y - 1][x - 1] = symbol;
+                return true; // Successfully placed
+            }
+            return false; // Cell already occupied
+        };
+
+        return { render, setCell };
     }
     
     //SAVE PLAYER INFO
@@ -18,24 +30,42 @@ const Game = (function () {
     }
 
     // CREATE NEW INSTANCE OF GAME(ASK FOR PLAYER INFO, RENDER GAMEBOARD, WAIT FOR PLAYER MOVE)
+    //CORRECTED CODE WITH IMPROVEMENTS
     function newGame() {
         let player1 = player(prompt("Player 1 name?"), "X");
         let player2 = player(prompt("Player 2 name?"), "O");
         let currentGame = gameboard();
-        currentGame.render(player1, player2)
-        return function move(player, posX, posY) { //CHECK WHICH PLAYER, PLACE "PIECE"
-            switch(player) {
-                case 1:
-                    currentGame.gameboard[posY-1][posX-1] = player1.symbol;
-                    break;
-                case 2:
-                    currentGame.gameboard[posY-1][posX-1] = player2.symbol;
-                    break;
-            }
-            currentGame.render(player1, player2);
-        }
+        currentGame.render(player1, player2);
 
+        return function move(player, posX, posY) { //CHECK WHICH PLAYER, PLACE "PIECE"
+            const symbol = player === 1 ? player1.symbol : player2.symbol;
+            if (currentGame.setCell(posX, posY, symbol)) {
+                currentGame.render(player1, player2);
+            } else {
+                console.log("Invalid move! Cell already occupied.");
+            }
+        };
     }
+
+    //OLD CODE, KEEPING FOR REFERENCE AND LEARNING
+    // function newGame() {
+    //     let player1 = player(prompt("Player 1 name?"), "X");
+    //     let player2 = player(prompt("Player 2 name?"), "O");
+    //     let currentGame = gameboard();
+    //     currentGame.render(player1, player2)
+    //     return function move(player, posX, posY) { //CHECK WHICH PLAYER, PLACE "PIECE"
+    //         switch(player) {
+    //             case 1:
+    //                 currentGame.gameboard[posY-1][posX-1] = player1.symbol;
+    //                 break;
+    //             case 2:
+    //                 currentGame.gameboard[posY-1][posX-1] = player2.symbol;
+    //                 break;
+    //         }
+    //         currentGame.render(player1, player2);
+    //     }
+
+    // }
 
     return {newGame};
 })();
