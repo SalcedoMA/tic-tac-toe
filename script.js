@@ -11,28 +11,17 @@ const Game = (function () {
 
         };
 
+        //CHECK FOR WINNING CONDITIONS DEPENDING ON WHICH CELL IS SELECTED
         const hasWon = function (x, y) {
-            let fullRow = board[y - 1].every( (val, i, arr) => val === arr[0] );
-            const winConditions = [
-                [board[0][0], board[1][1],board[2][2]],
-                [board[0][2], board[1][1],board[2][0]],
-                [board[0][0], board[1][0],board[2][0]],
-                [board[0][1], board[1][1],board[2][0]],
-                [board[0][2], board[1][2],board[2][2]]
-            ]
+            const horizontal = board[y - 1].every( (val, i, arr) => val === arr[0] );
+            const diagonalLeft = [board[0][0], board[1][1],board[2][2]].every( (val, i, arr) => val === arr[0] && val !== " "); //ALWAYS CHECKS FOR DIAGONALS NO MATTER THE SELECTED CELL (WILL BE FIXED IN FUTURE ITERATIONS)
+            const diagonalRight = [board[0][2], board[1][1],board[2][0]].every( (val, i, arr) => val === arr[0] && val !== " ");
+            const vertical = [board[0][x - 1], board[1][x - 1],board[2][x - 1]].every( (val, i, arr) => val === arr[0]);
 
-            if (fullRow) {
-                return true;
-            } else {
-                for (condition of winConditions) {
-                    if (condition.every( (val, i, arr) => val === arr[0] )) {
-                        return true;
-                    }
-                }
-            }
+            return (horizontal || diagonalLeft || diagonalRight || vertical);
         };
 
-        const setCell = function (x, y, symbol) { //FUNCTION TO MODIFY BOARD WITHOUT ACCESSING DIRECTLY
+        const setCell = function (x, y, symbol) { //MODIFY BOARD WITHOUT ACCESSING DIRECTLY
             if (board[y - 1][x - 1] === " ") {
                 board[y - 1][x - 1] = symbol;
                 if (hasWon(x, y)) {
@@ -63,11 +52,15 @@ const Game = (function () {
         currentGame.render(player1, player2);
 
         return function move(player, posX, posY) { //CHECK WHICH PLAYER, PLACE "PIECE"
-            const symbol = player === 1 ? player1.symbol : player2.symbol;
-            if (currentGame.setCell(posX, posY, symbol)) {
-                currentGame.render(player1, player2);
+            if ((posX < 4) && (posY < 4) && (posX > 0) && (posY > 0)) { //CHECK IF SELELECT CELL IS INSIDE THE BOARD
+                const symbol = player === 1 ? player1.symbol : player2.symbol;
+                if (currentGame.setCell(posX, posY, symbol)) {
+                    currentGame.render(player1, player2);
+                } else {
+                    console.log("Invalid move! Cell already occupied.");
+            }
             } else {
-                console.log("Invalid move! Cell already occupied.");
+                console.log('Invalid move! Please select a cell inside the board!');
             }
         };
     }
