@@ -1,5 +1,5 @@
 /* FONTS, VARIABLES, RESETS */
-@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Playwrite+IT+Moderna:wght@100..400&family=Special+Elite&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Playwrite+IT+Moderna:wght@100..400&family=Sixtyfour&family=Special+Elite&family=Tiny5&display=swap');
 
 .dosis {
     font-family: "dosis", serif;
@@ -13,6 +13,30 @@
     font-weight: 400;
     font-style: normal;
   }
+
+  .sixtyfour {
+    font-family: "Sixtyfour", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+      "BLED" 0,
+      "SCAN" 0;
+  }
+
+  .playwrite-it {
+    font-family: "Playwrite IT Moderna", cursive;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .tiny5-regular {
+    font-family: "Tiny5", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
   
 :root {
     --main-border-style: 0.4rem solid #0D0D0D;
@@ -33,7 +57,7 @@
 /* BODY AND OTHERS */
 body {
     background-color: rgb(58, 58, 58);
-    min-height: 100vh;
+    height: 100vh;
     display: grid;
     grid-template-columns: 1fr 6fr;
     grid-template-rows: minmax(min-content, 10vmin) 1fr;
@@ -133,4 +157,106 @@ body {
 /* MAIN */
 .main {
     background-color: var(--main-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.scoreboard {
+    display: flex;
+    gap: 2rem;
+    font-family: "dosis";
+    font-size: 3rem;
+    letter-spacing: -0.15rem;
+    align-items: end;
+}
+
+.scores {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.values {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 700;
+}
+
+.player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    font-size: 2rem;
+}
+
+.player-input {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.player-input input{
+    width: 9rem;
+    height: 2rem;
+    font-size: 1.25rem;
+    padding: 0 0.25rem;
+}
+
+.player-input button {
+    height: 2rem;
+    width: 2rem;
+}
+
+.player .name {
+    display: none;
+}
+
+.player svg {
+    height: 3rem;
+}
+
+.board-background {
+    background-color: #0D0D0D;
+}
+
+.gameboard {
+    display: grid;
+    grid-template-columns: repeat(3, 10rem);
+    grid-template-rows: repeat(3, 10rem);
+    justify-items: center;
+    align-items: center;    
+    gap: 0.5rem;
+}
+
+.gamecell {
+    height: 100%;
+    width: 100%;
+    background-color: #F9F9F9;
+}
+
+.gamecell svg {
+    padding: 0.5rem;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem
+}
+
+.actions button {
+    width: 9rem;
+    height: 2.5rem;
+    font-size: 1rem;
+    font-weight: 700;
 }
