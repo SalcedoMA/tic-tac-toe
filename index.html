@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>tic-tac-toe</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
     <div class="header">
@@ -60,13 +60,17 @@
         </div>
     </div>
     <div class="main">
+        <div class="disabler">
+            <div id="win-message"><h1>PLAYER 1 WON</h1></div>
+            <button type="button" class="next-game">Next game</button>
+        </div>
         <div class="game-container">
             <div class="scoreboard">
                 <div class="player" id="player1">
                     <h3 class="name">Player 1:</h3>
                     <div class="player-input">
-                        <input type="text" id="p1-input" placeholder="Player 1">
-                        <button type="button">Play</button>
+                        <input type="text" id="p1-input" value="Player 1">
+                        <button type="button" id="p1-button">Play</button>
                     </div>
                     <p class="symbol"><svg xmlns="http://www.w3.org/2000/svg" fill="#000000" viewBox="280 -679 399 399"><path d="m336-280-56-56 144-144-144-143 56-56 144 144 143-144 56 56-144 143 144 144-56 56-143-144-144 144Z"/></svg></p>
                 </div>
@@ -81,24 +85,17 @@
                 <div class="player" id="player2">
                     <h3 class="name">Player 2:</h3>
                     <div class="player-input">
-                        <input type="text" id="p2-input" placeholder="Player 2">
-                        <button type="button">Play</button>
+                        <input type="text" id="p2-input" value="Player 2">
+                        <button type="button" id="p2-button">Play</button>
                     </div>
                     <p class="symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="2 2 20 20"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,6.5A5.5,5.5 0 0,1 17.5,12A5.5,5.5 0 0,1 12,17.5A5.5,5.5 0 0,1 6.5,12A5.5,5.5 0 0,1 12,6.5Z"/></svg></p>
                 </div>
             </div>
             <div class="board-background">
                 <div class="gameboard">
-                    <div class="gamecell"></div>
-                    <div class="gamecell"></div>
-                    <div class="gamecell"></div>
-                    <div class="gamecell"></div>
-                    <div class="gamecell"></div>
-                    <div class="gamecell"></div>
-                    <div class="gamecell"></div>
-                    <div class="gamecell"></div>
-                    <div class="gamecell"></div>
+                    
                 </div>
+                
             </div>
             <div class="actions">
                 <button type="button" class="reset-game">Restart</button>
