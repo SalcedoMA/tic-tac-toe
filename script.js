@@ -1,4 +1,4 @@
-// MODULE THAT HANDLES THE GAME'S INTERNAL LOGIC
+// MODULE THAT HANDLES THE GAME'S INTERNAL LOGIC ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const Game = (function () {
     //DEFINE GAMEBOARD AND RENDER IT
     function gameboard() {
@@ -72,13 +72,17 @@ const Game = (function () {
     
     return {newGame};
 })();
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// MODULE FOR DISPLAYING ALL INFO INTO THE UI
+
+// STORE PLAYER ICON SVGS IN "MORE USABLE" VARIABLES
 const cross = '<svg xmlns="http://www.w3.org/2000/svg" fill="#000000" viewBox="280 -679 399 399"><path d="m336-280-56-56 144-144-144-143 56-56 144 144 143-144 56 56-144 143 144 144-56 56-143-144-144 144Z"/></svg>';
 const circle = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="2 2 20 20"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,6.5A5.5,5.5 0 0,1 17.5,12A5.5,5.5 0 0,1 12,17.5A5.5,5.5 0 0,1 6.5,12A5.5,5.5 0 0,1 12,6.5Z"/></svg>';
 
+// MODULE FOR DISPLAYING ALL INFO INTO THE UI ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const Display = (function() {
     
+    // DEFINE EACH PLAYER'S INFORMATION AND BASIC FUNCTIONS, AND CACHE UI ELEMENTS FROM DOM
     const  player = function(pName, pNum, pSymbol, pScore, pInput, pForm, pButton) {
         const name = document.querySelector(pName);
         const num = pNum;
@@ -122,11 +126,12 @@ const Display = (function() {
 
         
     
-
+     // CREATE INSTANCES OF THE TWO PLAYERS
     const player1 = player("#player1 .name", 1, cross , "#p1-score", "#p1-input", "#player1 .player-input", "#p1-button"); 
     const player2 = player("#player2 .name", 2, circle, "#p2-score", "#p2-input", "#player2 .player-input", "#p2-button")
     let activePlayer = player1;
 
+    // GRAB BOARD ARRAY FROM GAME MODULE, AND DISPLAY ITS CONTENTS IN THE UI GRID
     const gameRender = function (boardArray) {
         const gameboard = document.querySelector(".gameboard");
         gameboard.innerHTML = ""
@@ -139,11 +144,11 @@ const Display = (function() {
                 cell.innerHTML = boardArray[row][arrcell];
                 gameboard.appendChild(cell);
                 let playable = false;
-                cell.addEventListener('mouseover', event => {
+                cell.addEventListener('mouseover', event => { //SHOW ACTIVE PLAYER'S ICON ON HOVER
                     if (cell.childElementCount < 1) {
                         playable = true;
                         cell.innerHTML = activePlayer.symbol; 
-                        cell.addEventListener('mouseleave', event => {
+                        cell.addEventListener('mouseleave', event => { 
                             if (cell.childElementCount > 0 && playable) {
                                 cell.innerHTML = ""; 
                                 playable = false;
@@ -151,7 +156,7 @@ const Display = (function() {
                         })  
                     }
                 })
-                cell.addEventListener('click', event => {
+                cell.addEventListener('click', event => { //PLACE PLAYER "PIECE" WHEN CLICK ON GRID CELL
                     if (playable === true) {
                         gameOne.move(activePlayer.num, posX, posY);
                         activePlayer = activePlayer === player1 ? player2 : player1;
@@ -165,6 +170,8 @@ const Display = (function() {
         }
         
     }
+
+    // DISPLAY ROUND WINNER AND CLEAR BOARD
     const hasWon = function() {
         const winMessage = document.querySelector("#win-message h1");
         const disabler = document.querySelector(".disabler");
@@ -184,6 +191,7 @@ const Display = (function() {
 
     };
 
+    //SAME AS hasWon(), BUT IN CASE OF A TIE
     const itsATie = function() {
         const winMessage = document.querySelector("#win-message h1");
         const disabler = document.querySelector(".disabler");
@@ -201,5 +209,5 @@ const Display = (function() {
     return {gameRender, hasWon, itsATie};
 }) ();
 
-let gameOne = Game.newGame();
-Display.gameRender(gameOne.currentGame.board);
+let gameOne = Game.newGame(); //CREATE FIRST INSTANCE OF THE GAME (THIS IS REPEATED IN THE CODE EVERYTIME THE BAORD NEEEDS TO BE CLEARED AND A NEW GAME STARTED)
+Display.gameRender(gameOne.currentGame.board); //DRAW THE BOARD ON THE GRID.
